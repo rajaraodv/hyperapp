@@ -115,9 +115,6 @@ test("resolve", done => {
       },
       resolve(state, actions, result) {
         if (typeof result === "string") {
-          //
-          // Query strings as a valid ActionResult.
-          //
           const [key, value] = result.slice(1).split("=")
           return { [key]: value }
         }
@@ -160,20 +157,3 @@ test("update", done => {
     }
   })
 })
-
-// test("ready", done => {
-//   app({
-//     view: state => h("div", {}, "foo"),
-//     events: {
-//       ready(state, actions, root) {
-//         //
-//         // This event fires after the view is rendered and attached
-//         // to the DOM with your app top-level element / root.
-//         //
-//         root.appendChilde(document.createTextNode("bar"))
-//         expect(document.body.innerHTML).toBe(`<div>foobar</div>`)
-//         done()
-//       }
-//     }
-//   })
-// })

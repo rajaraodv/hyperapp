@@ -18,8 +18,8 @@ export function app(props) {
       appEvents[key] = (appEvents[key] || []).concat(mixin.events[key])
     })
 
-    initialize(appActions, mixin.actions)
-    appState = merge(appState, mixin.state)
+    initialize(appActions, scope(mixin.actions, mixin.scope), mixin.scope)
+    appState = merge(appState, scope(mixin.state, mixin.scope))
   }
 
   requestRender(
@@ -28,21 +28,33 @@ export function app(props) {
 
   return emit
 
-  function initialize(actions, withActions, lastName) {
+  function initialize(actions, withActions, scope, lastName) {
     Object.keys(withActions || []).map(function(key) {
       var action = withActions[key]
       var name = lastName ? lastName + "." + key : key
 
       if (typeof action === "function") {
         actions[key] = function(data) {
-          emit("action", { name: name, data: data })
+          emit("action", {
+            name: name,
+            data: data,
+            scope: scope
+          })
 
-          var result = emit("resolve", action(appState, appActions, data))
-
-          return typeof result === "function" ? result(update) : update(result)
+          return update(
+            emit(
+              "resolve",
+              action(
+                scope ? appState[scope] : appState,
+                scope ? appActions[scope] : appActions,
+                data
+              )
+            ),
+            scope
+          )
         }
       } else {
-        initialize(actions[key] || (actions[key] = {}), action, name)
+        initialize(actions[key] || (actions[key] = {}), action, scope, name)
       }
     })
   }
@@ -64,16 +76,30 @@ export function app(props) {
     }
   }
 
-  function update(withState) {
-    if (withState) {
-      var newState = emit("merge", withState)
-      if (newState === withState) {
-        newState = merge(appState, withState)
-      }
+  function scope(withObject, withScope) {
+    var obj = {}
 
-      if ((newState = emit("update", newState))) {
-        requestRender((appState = newState))
-      }
+    if (withScope) {
+      obj[withScope] = withObject
+    } else {
+      obj = withObject
+    }
+
+    return obj
+  }
+
+  function update(withState, withScope) {
+    if (typeof withState === "function") {
+      return withState(function(result) {
+        update(result, withScope)
+      })
+    }
+    if (
+      withState &&
+      (withState = scope(withState, withScope)) &&
+      (withState = emit("update", merge(appState, withState)))
+    ) {
+      requestRender((appState = withState))
     }
     return appState
   }
