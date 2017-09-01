@@ -4,7 +4,13 @@ VDOM or lifecycle events are functions called at various points in the life of a
 
 ## oncreate
 
-The [oncreate](/docs/api.md#oncreate) event is fired after the element is created and attached to the DOM. Use it to manipulate the DOM node directly, make a network request, start an animation, etc.
+The oncreate event is fired after the element is created and attached to the DOM.
+
+<pre>
+<a id="oncreate"></a>oncreate(<a href="https://developer.mozilla.org/en-US/docs/Web/API/Element">Element</a>): void
+</pre>
+
+Use it to manipulate the DOM node directly, make a network request, start an animation, etc.
 
 ```jsx
 app({
@@ -20,7 +26,13 @@ app({
 
 ## onupdate
 
-The [onupdate](/docs/api.md#onupdate) event is fired after the element attributes are updated. This event will fire even if the attributes have not changed. You can use `oldProps` inside the function to check if they changed or not.
+The onupdate event is fired after we attempt to update the element attributes.
+
+<pre>
+<a id="onupdate"></a>onupdate(<a href="https://developer.mozilla.org/en-US/docs/Web/API/Element">Element</a>, oldProps: <a href="/docs/vnodes.md#attributes">Attributes</a>): void
+</pre>
+
+This event will fire even if the attributes have not changed. You can use `oldProps` inside the function to check if they changed or not.
 
 ```jsx
 app({
@@ -40,7 +52,13 @@ app({
 
 ## onremove
 
-The [onremove](/docs/api.md#onremove) event is fired before the element is removed from the DOM. Use it for cleaning up resources like timers, creating slide out animations, etc.
+The onremove event is fired before the element is removed from the DOM.
+
+<pre>
+<a id="onremove"></a>onremove(<a href="https://developer.mozilla.org/en-US/docs/Web/API/Element">Element</a>): void
+</pre>
+
+Use it for cleaning up resources like timers, creating slide out animations, etc.
 
 ```jsx
 app({

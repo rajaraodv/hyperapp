@@ -47,5 +47,7 @@ If you don't know all the properties that you want to place in a component ahead
 
 ## Component Lifecycle Events
 
-Components share the same lifecycle events as virtual nodes. See [VDOM Events](/docs/vdom-events.md) for more information.
+Components share the same lifecycle events as virtual nodes.
+
+See [VDOM Events](/docs/vdom-events.md) for details.
 

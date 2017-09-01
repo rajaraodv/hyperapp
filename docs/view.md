@@ -19,7 +19,7 @@ app({
 })
 ```
 
-Bind user events and [actions](/docs/actions.md) together to create interactive applications.
+Then bind user events and [actions](/docs/actions.md) together to create interactive applications.
 
 [Try it Online](https://codepen.io/hyperapp/pen/zNxZLP?editors=0010)
 
